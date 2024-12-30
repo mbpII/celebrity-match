@@ -1,4 +1,4 @@
-import { Celebrity } from "../hooks/useCelebrities";
+import { Celebrity } from "lib/hooks/useCelebrities";
 
 export function getSimilarNames(
   currentName: string,

@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
-import path from "path";
-import { promises as fs } from "fs";
-import pool from "@/lib/db";
+import pool from "lib/db";
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM celebrities");
