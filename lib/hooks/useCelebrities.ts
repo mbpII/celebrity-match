@@ -74,3 +74,4 @@ export function useCelebrities() {
     handleSkip,
   };
 }
+export default Celebrity;
