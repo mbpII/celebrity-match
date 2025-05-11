@@ -33,7 +33,7 @@ export const useGame = () => {
                 handleSkip();
                 setIsCorrect(false);
                 setFeedback("");
-            }, 150);
+            }, 150)
         } else {
             setIsCorrect(false);
             setFeedback("Incorrect. Try again or skip.");

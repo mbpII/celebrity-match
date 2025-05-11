@@ -7,6 +7,28 @@ export interface Celebrity {
   roleClue: string;
 }
 
+const getRandomizedOrder = (length: number, excludeIndex?: number) => {
+  const indices = Array.from({ length }, (_, i) => i);
+  if (excludeIndex !== undefined) {
+    indices.splice(excludeIndex, 1);
+  }
+  const shuffled = indices
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+  return shuffled;
+};
+
+const getNextUniqueIndex = (celebs: Celebrity[], currentIndex: number, availableIndices: number[]) => {
+  const nextIndex = getRandomizedOrder(availableIndices.length)[0];
+  const remainingIndices = availableIndices.filter(i => i !== nextIndex);
+
+  return {
+    nextIndex,
+    remainingIndices: remainingIndices.slice(1)
+  };
+};
+
 export function useCelebrities() {
   const [celebrities, setCelebrities] = useState<Celebrity[]>([]);
   const [order, setOrder] = useState<number[]>([]);
@@ -25,11 +47,8 @@ export function useCelebrities() {
 
         const initialIndex = Math.floor(Math.random() * data.length);
         setCurrentIndex(initialIndex);
+        setOrder(getRandomizedOrder(data.length, initialIndex));
 
-        const indices = Array.from({ length: data.length }, (_, i) => i)
-          .filter((i) => i !== initialIndex)
-          .sort(() => Math.random() - 0.5);
-        setOrder(indices);
       } catch (error) {
         console.error("Error fetching celebrities:", error);
         throw error;
@@ -39,31 +58,14 @@ export function useCelebrities() {
   }, []);
 
   const handleSkip = () => {
-    if (order.length > 0) {
-      let nextIndex = order[0];
-
-      while (celebrities[nextIndex]?.name === celebrities[currentIndex]?.name) {
-        const shuffledOrder = [...order].sort(() => Math.random() - 0.5);
-        nextIndex = shuffledOrder[0];
-        setOrder(shuffledOrder);
-      }
-
-      setOrder(order.slice(1));
-      setCurrentIndex(nextIndex);
-    } else {
-      setCurrentIndex((currentIndex + 1) % celebrities.length);
-
-      const newOrder = Array.from({ length: celebrities.length }, (_, i) => i)
-        .filter((i) => i !== currentIndex)
-        .sort(() => Math.random() - 0.5);
-
-      if (celebrities[newOrder[0]]?.name === celebrities[currentIndex]?.name) {
-        [newOrder[0], newOrder[1]] = [newOrder[1], newOrder[0]];
-      }
-
-      setCurrentIndex(newOrder[0]);
-      setOrder(newOrder.slice(1));
-    }
+    const result = order.length > 0
+      ? getNextUniqueIndex(celebrities, currentIndex, order)
+      : getNextUniqueIndex(celebrities, currentIndex, getRandomizedOrder(celebrities.length, currentIndex));
+    
+    if (!result) return;
+    
+    setCurrentIndex(result.nextIndex);
+    setOrder(result.remainingIndices);
   };
 
   return {
