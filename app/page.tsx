@@ -1,5 +1,12 @@
 "use client";
 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+} from "./components/Card";
 import { CelebrityImage } from "./components/CelebrityImage";
 import { NameButtons } from "./components/NameButtons";
 import { SkipButton } from "./components/SkipButton";
@@ -8,7 +15,6 @@ import { useGame } from "./game";
 export default function Home() {
   const {
     currentCelebrity,
-    score,
     isCorrect,
     guess,
     feedback,
@@ -23,26 +29,34 @@ export default function Home() {
   }
 
   return (
-    <div className="max-w-xl mx-auto">
-      <h1 className="text-3xl front-bold mb-4">Celebrity Match</h1>
-      <CelebrityImage
-        image={currentCelebrity.image}
-        name={currentCelebrity.name}
-        onLoad={() => setIsLoading(false)}
-      />
-      <p>{currentCelebrity.roleClue}</p>
-      <div className="flex flex-col space-y-4">
-        <NameButtons
-          names={similarNames}
-          isCorrect={isCorrect}
-          guess={guess}
-          onButtonClick={(name) => {
-            handleGuess(name);
-          }}
-        />
-      </div>
-      <SkipButton onClick={handleSkip} />
-      {feedback && <p className="mt-4">{feedback}</p>}
-    </div>
+    <Card className="max-w-4xl w-bg-white/90 backdrop-blur-sm shadow-xl rounded-3xl overflow-hidden">
+      <CardHeader>
+        <CardTitle>Celebrity Match</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="max-w-xl mx-auto">
+          <CelebrityImage
+            image={currentCelebrity.image}
+            name={currentCelebrity.name}
+            onLoad={() => setIsLoading(false)}
+          />
+          <p>{currentCelebrity.roleClue}</p>
+          <div className="flex flex-col space-y-4">
+            <NameButtons
+              names={similarNames}
+              isCorrect={isCorrect}
+              guess={guess}
+              onButtonClick={(name) => {
+                handleGuess(name);
+              }}
+            />
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <SkipButton onClick={handleSkip} />
+        {feedback && <p className="ml-auto">{feedback}</p>}
+      </CardFooter>
+    </Card>
   );
 }

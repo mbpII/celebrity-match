@@ -1,4 +1,5 @@
 import * as React from "react";
+import styles from './Card.module.css';
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -6,11 +7,10 @@ const Card = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
+    className={`${styles.card} ${className}`}
     {...props}
   />
 ));
-Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
@@ -18,11 +18,10 @@ const CardHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex flex-col space-y-1.5 p-6 ${className}`}
+    className={`${styles['card-header']} ${className}`}
     {...props}
   />
 ));
-CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
@@ -30,11 +29,10 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h3
     ref={ref}
-    className={`text-2xl font-semibold leading-none tracking-tight ${className}`}
+    className={`${styles['card-title']} ${className}`}
     {...props}
   />
 ));
-CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -42,19 +40,17 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={`text-sm text-muted-foreground ${className}`}
+    className={`${styles['card-description']} ${className}`}
     {...props}
   />
 ));
-CardDescription.displayName = "CardDescription";
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={`p-6 pt-0 ${className}`} {...props} />
+  <div ref={ref} className={`${styles['card-content']} ${className}`} {...props} />
 ));
-CardContent.displayName = "CardContent";
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
@@ -62,17 +58,16 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={`flex items-center p-6 pt-0 ${className}`}
+    className={`${styles['card-footer']} ${className}`}
     {...props}
   />
 ));
-CardFooter.displayName = "CardFooter";
 
 export {
   Card,
   CardHeader,
-  CardFooter,
   CardTitle,
   CardDescription,
   CardContent,
+  CardFooter,
 };

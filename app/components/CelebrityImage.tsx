@@ -6,18 +6,18 @@ interface CelebrityImageProps {
   onLoad: () => void;
 }
 
-export const CelebrityImage: React.FC<CelebrityImageProps> = ({ 
-  image, 
-  name, 
-  onLoad 
+export const CelebrityImage: React.FC<CelebrityImageProps> = ({
+  image,
+  name,
+  onLoad
 }) => (
-  <div className="w-[300px] mx-auto">
+  <div className="w-full mx-auto shadow-lg rounded-lg">
     <Image
-      src={image}
-      alt={name}
-      width={300}
-      height={300}
-      className="rounded-lg"
+      src={image || "/placeholder.svg"}
+      alt={name || "Game image"}
+      width={400}
+      height={400}
+      className="w-full h-auto object-cover"
       priority
       onLoad={onLoad}
     />

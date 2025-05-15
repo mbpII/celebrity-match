@@ -11,7 +11,8 @@ export const NameButtons: React.FC<NameButtonsProps> = ({
   guess,
   onButtonClick
 }) => (
-  <div className="flex space-x-4">
+  // TODO: Center buttons its annoying but a problem for when you popuplate the database further for more breaking changes and usecases
+  <div className="flex space-x-4 mx-auto">
     {names.map((name) => (
       <button
         key={name}
